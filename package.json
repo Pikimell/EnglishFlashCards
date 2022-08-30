@@ -1,6 +1,6 @@
 {
-  "name": "englishflashcards",
-  "version": "1.0.0",
+  "name": "english-flash-cards",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "start": "parcel src/*.html",
