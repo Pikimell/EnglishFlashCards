@@ -6,7 +6,6 @@
     "start": "parcel src/*.html",
     "build": "parcel build src/*.html --public-url /EnglishFlashCards/",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
     "push": "git add . && git commit -m 'update' && git push"
   },
   "repository": {
@@ -14,17 +13,25 @@
     "url": "git+https://github.com/Pikimell/EnglishFlashCards.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Pikimell",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Pikimell/EnglishFlashCards/issues"
   },
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "aws-sdk": "^2.1204.0",
+    "bootstrap": "^5.2.0",
+    "dotenv": "^16.0.1",
+    "modern-normalize": "^1.1.0"
+  },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.6.0",
     "parcel": "^2.6.0",
+    "parcel-bundler": "^1.12.4",
     "parcel-plugin-handlebars-precompile": "^1.0.2",
-    "parcel-plugin-nuke-dist": "^1.0.1",
     "parcel-reporter-clean-dist": "^1.0.4",
+    "parcel-transformer-hbs": "^1.0.4",
     "posthtml-include": "^1.7.4"
   },
   "homepage": "https://github.com/Pikimell/EnglishFlashCards",

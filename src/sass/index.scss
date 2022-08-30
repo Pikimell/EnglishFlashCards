@@ -1,0 +1,22 @@
+@import './utils/reset';
+@import './base/fonts';
+@import './base/variables';
+
+@import './components/card.scss';
+
+@import './layout/main';
+
+
+body {
+  background: $backgroundColor url("../image/google-logo.svg") no-repeat scroll 50% 50%;
+  font-family: "Lily Script One";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
