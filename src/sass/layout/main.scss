@@ -1,5 +1,5 @@
 .list-module{
-    width: 20vw;
+    width: 25vw;
     height: 80vh;
     background: rgba(255, 255, 255, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.18);
@@ -37,6 +37,10 @@
         width: 100%;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+
+      &.select{
+        border:3px solid rgb(0, 0, 0);
       }
     }
   }
