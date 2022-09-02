@@ -13,6 +13,13 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
+          touch .env
+          echo ACCESS_KEY=${{secrets.ACCES_KEY}} >> .env
+          echo SECRET_ACCESS_KEY=${{secrets.SECRET_ACCESS_KEY}} >> .env
+          cat .env
+
+      - name: Install and Build 🔧
+        run: |
           npm i
           npm run build
       - name: Deploy 🚀
