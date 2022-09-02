@@ -47,3 +47,38 @@ a {
     all: unset;
 	cursor: pointer;
 }
+
+*::-webkit-scrollbar-track
+{
+	display: none;
+}
+
+*::-webkit-scrollbar
+{
+	width: 7px;
+	background-color: transparent;
+	scroll-padding: 10px;
+}
+
+*::-webkit-scrollbar-thumb
+{
+	border-radius: 5px;
+	background-color: rgba(255, 0, 0, 0.152);
+	transition: all 2s linear;
+}
+
+*::-webkit-scrollbar-thumb:hover
+{
+	border-radius: 5px;
+	background-color: rgba(255, 0, 0, 0.561);
+}
+
+hr {
+	background: #FF6464;
+	height: 2px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: none;
+	box-shadow: none;
+}

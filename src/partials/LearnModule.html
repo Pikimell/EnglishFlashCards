@@ -8,19 +8,36 @@
     <link rel="stylesheet" href="../sass/index.scss" />
 </head>
 <body>
-    <div class="card-wrapper flip-right">
-        <div class="card">
-          <div class="front">Start</div>
-          <div class="back">Почати</div>
-        </div>
-
-        <div class="event-but-container">
-            <div class="event-but event-prev"></div>
-            <div class="event-but event-rotate"></div>
-            <div class="event-but event-next"></div>
+    <div class="card-container">
+        <ul class="list-module">
+        </ul>
+        <div class="card-wrapper flip-right">
+            <div class="card">
+              <div class="front">Start</div>
+              <div class="back">Почати</div>
+            </div>
+    
+            <div class="event-but-container">
+                <div class="event-but event-prev"></div>
+                <div class="event-but event-rotate"></div>
+                <div class="event-but event-next"></div>
+            </div>
         </div>
     </div>
-
-    <script src="../js/card.js"></script>
+    <ul class="base-block">
+        <div class="block-checher"></div>
+        <li class="base-block__item">A1</li>
+        <hr>
+        <li class="base-block__item">A2</li>
+        <hr>
+        <li class="base-block__item">B1</li>
+        <hr>
+        <li class="base-block__item">B2</li>
+        <hr>
+        <li class="base-block__item">C1</li>
+        <hr>
+        <li class="base-block__item">C2</li>
+    </ul>
+    <script type="module" src="../js/card.js"></script>
 </body>
 </html>

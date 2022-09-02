@@ -1,4 +1,17 @@
-.card-wrapper {
+.card-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 15vw;
+  gap:10vw;
+}
+
+
+// =============================================================
+  .card-wrapper {
     position: relative;
     display: inline-block;
     perspective: 1000px;
@@ -67,15 +80,12 @@
       }
     }
   }
-  
-
   .card-wrapper, .card {
     width: 500px;
     height: 500px;
     margin: 10px;
     z-index: 10;
   }
-  
   .card {
     .front,
     .back {
@@ -84,6 +94,7 @@
       justify-content: center;
       border: 1px solid $cardBorderColor;
       border-radius: 20px;
+      backdrop-filter: blur(20px);
     }
   
     .front {
@@ -99,7 +110,8 @@
       background: $cardBackBackgroundColor;
     }
   }
-
   .card.minimize {
     transform: scale(0.01);
   }
+
+// =============================================================
