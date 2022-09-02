@@ -14,7 +14,7 @@ jobs:
       - name: Create file 🔧
         run: |
           touch .env
-          echo ACCESS_KEY=${{secrets.ACCES_KEY}} >> .env
+          echo ACCESS_KEY=${{secrets.ACCESS_KEY}} >> .env
           echo SECRET_ACCESS_KEY=${{secrets.SECRET_ACCESS_KEY}} >> .env
           cat .env
 
