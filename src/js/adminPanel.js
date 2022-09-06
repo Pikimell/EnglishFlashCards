@@ -112,7 +112,7 @@ refs.wordButtons.deleteBtn.addEventListener("click", onDeleteWordClick);
 
 async function onCreateWordClick(e) {
   e.preventDefault();
-  data = getFormData(e);
+  let data = getFormData(e);
 
   let word = {
     eng: data.eng.value,
