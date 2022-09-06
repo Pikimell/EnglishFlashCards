@@ -2,16 +2,19 @@
 import moduleListTemplate from "../templates/selectComponent.hbs";
 import wordListTemplate from "../templates/wordListTemplate.hbs";
 import { DynamoAPI } from "./modules/store/dynamo";
+import Nott from "./modules/notiflix";
 // ===================================================== //
 
 let listModules = [];
 let listWords = [];
+let openFlag = false;
 
 const selectedID = {
   selectedCategory: "l7j8vhhs",
   selectedModuleForUpdate: null,
   selectedModuleForWords: null,
   selectedWords: null,
+  selectedWord: null,
 };
 
 const refs = {
@@ -26,6 +29,7 @@ const refs = {
     deleteBtn: document.querySelector(".js-quest-btn[data-type=delete]"),
   },
   listWordsContainer: document.querySelector(".admin-list-module"),
+  form: document.querySelector(".admin-edit-words .content-modal"),
 };
 
 // ===================================================== //
@@ -35,7 +39,7 @@ let myListWords = document.querySelector(".dropdown-el[data-type=words]");
 myListModules.addEventListener("click", onListClick);
 myListWords.addEventListener("click", onListClick);
 
-function onListClick(e) {
+async function onListClick(e) {
   e.preventDefault();
   e.stopPropagation();
   e.currentTarget.classList.toggle("expanded");
@@ -44,30 +48,45 @@ function onListClick(e) {
     document.querySelector(id).checked = true;
     document.addEventListener("click", closeSelect);
 
-    if (e.currentTarget.dataset.type === "words") {
+    if (e.currentTarget.dataset.type === "words" && openFlag) {
       selectedID.selectedModuleForWords = id.slice(1, id.length - 4);
+      listWords = await DynamoAPI.getItems(
+        "flash-cards-words",
+        selectedID.selectedModuleForWords,
+        "idModule"
+      );
+      if (listWords.length > 0) {
+        renderListWords(listWords);
+        Nott.info(`Завантаженно слів: ${listWords.length}`);
+      } else {
+        Nott.fail(`Нажаль у данній категорії слів немає(`);
+        listWords = [];
+        renderListWords(listWords);
+      }
     }
+    myListWords.scrollTop = 0;
   } catch (err) {
     console.log(err);
   }
-  if (!e.currentTarget.classList.contains("expanded")) {
-    e.currentTarget.scrollTop = 0;
-  }
+  openFlag = !openFlag;
 }
 function closeSelect() {
   try {
     myListModules.classList.remove("expanded");
     document.removeEventListener(closeSelect);
+    openFlag = false;
   } catch (err) {}
 }
 // ===================================================== //
 
 async function loadListItems() {
+  Nott.startLoading();
   listModules = await DynamoAPI.getItems(
     "flash-cards-modules",
     selectedID.selectedCategory,
     "idModule"
   );
+  Nott.stopLoading();
 }
 
 function renderListModule(renderList) {
@@ -92,9 +111,11 @@ function renderListWords(renderList) {
 }
 
 async function onBodyLoad() {
+  Nott.startLoading();
   await loadListItems();
   renderListModule(listModules);
   renderListWords(listWords);
+  Nott.stopLoading();
 }
 
 document.addEventListener("DOMContentLoaded", onBodyLoad);
@@ -108,7 +129,27 @@ refs.wordButtons.createBtn.addEventListener("click", onCreateWordClick);
 refs.wordButtons.updateBtn.addEventListener("click", onUpdateWordClick);
 refs.wordButtons.deleteBtn.addEventListener("click", onDeleteWordClick);
 
+refs.listWordsContainer.addEventListener("click", onSelectWord);
+
 // ===================================================== //
+
+async function onSelectWord(e) {
+  if (e.target.nodeName === "LI")
+    try {
+      resetSelectWord();
+
+      e.target.classList.add("selected");
+      let wordId = e.target.dataset.id;
+      let word = listWords.find((word) => word.id === wordId);
+      refs.form.elements.eng.value = word.eng;
+      refs.form.elements.rus.value = word.rus;
+      selectedID.selectedWord = word.id;
+    } catch {}
+  else {
+    refs.form.reset();
+    resetSelectWord();
+  }
+}
 
 async function onCreateWordClick(e) {
   e.preventDefault();
@@ -121,24 +162,46 @@ async function onCreateWordClick(e) {
   };
 
   if (word.idModule && (word.eng || word.rus)) {
+    Nott.startLoading();
     id = await DynamoAPI.createItem("flash-cards-words", word);
     word.id = id;
     listWords.push(word);
     renderListWords(listWords);
+    Nott.stopLoading();
   }
-
+  resetSelectWord();
   resetFormData(e);
 }
 
 function onUpdateWordClick(e) {
   e.preventDefault();
+  if (selectedID.selectedWord) {
+    let data = getFormData(e);
+    let word = {
+      eng: data.eng.value,
+      rus: data.rus.value,
+      idModule: selectedID.selectedModuleForWords,
+    };
+    DynamoAPI.updateItem("flash-cards-words", selectedID.selectedWord, word);
+
+    let oldWord = listWords.find((word) => word.id === selectedID.selectedWord);
+    oldWord.eng = word.eng;
+    oldWord.rus = word.rus;
+    renderListWords(listWords);
+    resetSelectWord();
+  }
 
   resetFormData(e);
 }
 
 function onDeleteWordClick(e) {
   e.preventDefault();
-
+  if (selectedID.selectedWord) {
+    DynamoAPI.deleteItem("flash-cards-words", selectedID.selectedWord);
+    listWords = listWords.filter((word) => word.id !== selectedID.selectedWord);
+    renderListWords(listWords);
+  }
+  resetSelectWord();
   resetFormData(e);
 }
 
@@ -151,9 +214,11 @@ async function onCreateModuleClick(e) {
       title: nameModule,
       idModule: selectedID.selectedCategory,
     };
+    Nott.startLoading();
     module.id = await DynamoAPI.createItem("flash-cards-modules", module);
     listModules.push(module);
     renderListModule(listModules);
+    Nott.startLoading();
   }
   resetFormData(e);
 }
@@ -206,6 +271,13 @@ function resetFormData(e) {
 function getFormData(e) {
   let form = e.target.closest("form");
   return form.elements;
+}
+
+function resetSelectWord() {
+  refs.listWordsContainer
+    .querySelector(".selected")
+    ?.classList.remove("selected");
+  selectedID.selectedWord = null;
 }
 
 // ===================================================== //

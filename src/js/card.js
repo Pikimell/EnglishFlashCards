@@ -1,3 +1,9 @@
+// ===================================================
+import Nott from "./modules/notiflix";
+import { DynamoAPI } from "./modules/store/dynamo";
+import listModuleTemplate from "../templates/moduleListTemplate.hbs";
+// ===================================================
+
 const cardElem = document.querySelector(".card");
 const cardButtons = document.querySelectorAll(".event-but");
 
@@ -29,7 +35,7 @@ cardElem.addEventListener("click", (e) => {});
 
 function loadNextWord() {
   selectedId.selectedWord++;
-  if (selectedId.selectedWord > listWords.length) selectedId.selectedWord = 0;
+  if (selectedId.selectedWord >= listWords.length) selectedId.selectedWord = 0;
 
   loadWordData(selectedId.selectedWord);
 }
@@ -54,9 +60,6 @@ function loadWordData(index) {
 }
 
 // ===================================================== //
-
-import { DynamoAPI } from "./modules/store/dynamo";
-import listModuleTemplate from "../templates/moduleListTemplate.hbs";
 
 const refs = {
   listModuleElement: document.querySelector(".list-module"),
@@ -84,17 +87,19 @@ const selectedId = {
 loadData();
 
 async function loadData() {
+  Nott.startLoading();
   const data = await DynamoAPI.getItems(
     "flash-cards-modules",
     selectedId.selectedCategory,
     "idModule"
   );
-
   listModules = data;
   renderModules();
+  Nott.stopLoading();
 }
 
 async function loadWords(idModule) {
+  Nott.startLoading();
   listWords = await DynamoAPI.getItems(
     "flash-cards-words",
     idModule,
@@ -104,7 +109,11 @@ async function loadWords(idModule) {
     selectedId.selectedWord = -1;
     cardElem.children[0].textContent = "Start";
     cardElem.children[1].textContent = "Начать";
+    Nott.info(`Завантаженно слів: ${listWords.length}`);
+  } else {
+    Nott.fail(`Нажаль у данній категорії слів немає(`);
   }
+  Nott.stopLoading();
 }
 
 function renderModules() {

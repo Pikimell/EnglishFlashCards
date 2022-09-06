@@ -24,6 +24,7 @@
     "bootstrap": "^5.2.0",
     "dotenv": "^16.0.1",
     "modern-normalize": "^1.1.0",
+    "notiflix": "^3.2.5",
     "uniqid": "^5.4.0"
   },
   "devDependencies": {
