@@ -99,7 +99,6 @@ async function loadData() {
 }
 
 async function loadWords(idModule) {
-  Nott.startLoading();
   listWords = await DynamoAPI.getItems(
     "flash-cards-words",
     idModule,
@@ -113,7 +112,6 @@ async function loadWords(idModule) {
   } else {
     Nott.fail(`Нажаль у данній категорії слів немає(`);
   }
-  Nott.stopLoading();
 }
 
 function renderModules() {
