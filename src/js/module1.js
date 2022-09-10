@@ -17,4 +17,6 @@ function loadPage(){
         localStorage.setItem('learnModule1', [])
         modules = []
     }
+
+    refs.listModuleElement.innerHTML = listModuleTemplate(modules)
 }

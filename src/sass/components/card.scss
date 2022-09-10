@@ -15,6 +15,8 @@
     position: relative;
     display: inline-block;
     perspective: 1000px;
+
+
     
     .card {
       position: relative;
@@ -52,6 +54,8 @@
       }
     }
 
+
+
     & .event-but-container{
       position: absolute;
       z-index: 15;
@@ -64,19 +68,31 @@
       justify-content: center;
       cursor: pointer;
 
+
       &>*{
-        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
-      & *:nth-child(1){
+      &>*:nth-child(1){
+        height: 80%;
         flex-grow: 0.2;
       }
 
-      & *:nth-child(2){
+      &>*:nth-child(2){
+        height: 80%;
         flex-grow: 1;
       }
 
-      & *:nth-child(3){
+      &>*:nth-child(3){
+        height: 80%;
         flex-grow: 0.2;
+      }
+
+      & h1{
+        font-weight: bold;
+        font-size: 20px;
+        max-height: fit-content;
       }
     }
   }
