@@ -1,0 +1,2 @@
+!function(){const e=localStorage.getItem("learnModule1"),t=localStorage.getItem("learnModule2"),l=localStorage.getItem("learnedWords"),o=localStorage.getItem("savedWords");e||localStorage.setItem("learnModule1",'[{"id":"awdawd", "title": "test", "words":[{"eng":"test", "rus":"test"}]}]'),t||localStorage.setItem("learnModule2","[]"),l||localStorage.setItem("learnedWords","[]"),o||localStorage.setItem("savedWords","[]")}();
+//# sourceMappingURL=index.e7d76feb.js.map
