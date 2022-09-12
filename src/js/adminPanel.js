@@ -163,7 +163,7 @@ async function onCreateWordClick(e) {
 
   if (word.idModule && (word.eng || word.rus)) {
     Nott.startLoading();
-    id = await DynamoAPI.createItem("flash-cards-words", word);
+    const id = await DynamoAPI.createItem("flash-cards-words", word);
     word.id = id;
     listWords.push(word);
     renderListWords(listWords);
