@@ -52,7 +52,7 @@ function loadWordData(index) {
     let eng = listWords[index].eng;
     let rus = listWords[index].rus;
 
-    eng = `${eng}`.replace("/", "\n");
+    eng = `${eng}`.replace("/", "<br>");
     cardElem.children[0].textContent = eng;
     cardElem.children[1].textContent = rus;
   } else if (index == -1) {
