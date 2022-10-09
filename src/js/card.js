@@ -51,6 +51,8 @@ function loadWordData(index) {
   if (index >= 0 && index < listWords.length) {
     let eng = listWords[index].eng;
     let rus = listWords[index].rus;
+
+    eng = `${eng}`.replace("/", "\n");
     cardElem.children[0].textContent = eng;
     cardElem.children[1].textContent = rus;
   } else if (index == -1) {
